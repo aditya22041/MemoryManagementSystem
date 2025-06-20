@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MeMS‑Pro: OS level Memory Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: auto; padding: 1rem; line-height: 1.6; }
+    header, section { margin-bottom: 2rem; }
+    h1, h2 { text-align: center; }
+    .badges img { margin: 0 .5rem; vertical-align: middle; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; }
+    .feature { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; text-align: center; }
+    .plots img { max-width: 100%; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 1rem; }
+    .footer { text-align: center; font-size: 0.9rem; color: #666; margin-top: 3rem; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🧠 MeMS‑Pro</h1>
+    <p align="center"><strong>A High-Performance, Thread‑Safe Memory Manager in C++</strong></p>
+    <p align="center" class="badges">
+      <img src="https://img.shields.io/badge/Language-C++17-blue.svg" alt="C++17">
+      <img src="https://img.shields.io/badge/Tested-Google%20Test-green.svg" alt="GoogleTest">
+      <img src="https://img.shields.io/badge/Build-Makefile-yellow.svg" alt="Makefile">
+      <img src="https://img.shields.io/badge/Benchmark-Python%20Plots-red.svg" alt="Plots">
+    </p>
+  </header>
+
+  <section id="overview">
+    <h2>Project Overview</h2>
+    <p>
+      MeMS‑Pro simulates OS‑level memory management with both a slab allocator for small objects
+      and a paged allocator for larger requests. It supports First‑Fit and Best‑Fit strategies,
+      is fully thread‑safe (pthread mutex), includes unit tests (GoogleTest), benchmarks, and
+      visualization scripts (Python).
+    </p>
+  </section>
+
+  <section id="features">
+    <h2>Key Features</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>Slab Allocator</h3>
+        <p>Fixed-size object caching &ndash; ultra-fast small allocations.</p>
+      </div>
+      <div class="feature">
+        <h3>Page Allocator</h3>
+        <p>OS‑style allocation via <code>mmap()</code> with multi‑page blocks.</p>
+      </div>
+      <div class="feature">
+        <h3>Strategies</h3>
+        <p>First‑Fit &amp; Best‑Fit block selection with O(log N) lookup.</p>
+      </div>
+      <div class="feature">
+        <h3>Thread‑Safe</h3>
+        <p>Protected by <code>pthread_mutex</code> for concurrent workloads.</p>
+      </div>
+      <div class="feature">
+        <h3>GoogleTest Suite</h3>
+        <p>7 core tests, covering edge cases and fragmentation logic.</p>
+      </div>
+      <div class="feature">
+        <h3>Benchmark &amp; Plots</h3>
+        <p>Real workloads with CSV output and Python-generated graphs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="benchmark">
+    <h2>Benchmark Results</h2>
+    <p>
+      Run:
+      <code>make bench && python3 docs/plot_results.py</code>
+      to generate <code>benchmark_results.csv</code> and PNGs.
+    </p>
+    <div class="plots">
+      <h3>Average Allocation Time</h3>
+      <img src="benchmark_avg_alloc_time.png" alt="Allocation Time Plot">
+      <h3>Memory Fragmentation</h3>
+      <img src="benchmark_fragmentation.png" alt="Fragmentation Plot">
+    </div>
+    <p>
+      <a href="benchmark_results.csv" target="_blank">Download the raw CSV</a>
+    </p>
+  </section>
+
+  <section id="getting-started">
+    <h2>Getting Started</h2>
+    <pre><code>
+git clone https://github.com/YOUR_USERNAME/MeMS-Pro.git
+cd MeMS-Pro
+make all        # build demo & benchmark
+make bench      # build & run benchmark
+make test       # run unit tests
+python3 docs/plot_results.py  # regenerate plots
+    </code></pre>
+  </section>
+
+  <section id="further-improvements">
+    <h2>Further Improvements</h2>
+    <ul>
+      <li><strong>Worst‑Fit Strategy:</strong> Add and compare a Worst‑Fit allocator.</li>
+      <li><strong>Swapping Simulation:</strong> Simulate page swapping to disk for OOM handling.</li>
+      <li><strong>CI Integration:</strong> Add GitHub Actions for automated build, test, and coverage.</li>
+      <li><strong>Code Coverage:</strong> Integrate <code>gcov</code> or <code>llvm-cov</code> and report badges.</li>
+      <li><strong>Dockerization:</strong> Provide a Dockerfile for reproducible builds.</li>
+      <li><strong>Advanced Metrics:</strong> Track allocation latency distributions, peak memory use.</li>
+    </ul>
+    <p>
+      <em>Be genuine:</em> the core project already demonstrates strong OS and concurrency skills. These enhancements will take it from “very good” to “exceptional,” but aren't strictly necessary for your next SDE role.
+    </p>
+  </section>
+
+  <footer class="footer">
+    <p>© 2025 Aditya Yadav — <a href="https://github.com/aditya22041/MemoryManagementSystem">GitHub Repo</a></p>
+  </footer>
+
+</body>
+</html>
