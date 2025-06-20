@@ -1,0 +1,5 @@
+workload,strategy,op_count,total_time_ms,avg_alloc_time_ns,final_fragmentation
+Variable Size Stress,BEST_FIT,50000,8355.39,232651,0
+Variable Size Stress,FIRST_FIT,50000,4972.46,54168.8,0
+Small Object Stress,BEST_FIT,50000,5981.12,125881,0
+Small Object Stress,FIRST_FIT,50000,3921.17,55229.5,0
