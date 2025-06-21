@@ -2,122 +2,279 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MeMS‑Pro: OS level Memory Manager</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MeMS‑Pro: Advanced Memory Manager</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body { font-family: Arial, sans-serif; max-width: 900px; margin: auto; padding: 1rem; line-height: 1.6; }
-    header, section { margin-bottom: 2rem; }
-    h1, h2 { text-align: center; }
-    .badges img { margin: 0 .5rem; vertical-align: middle; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; }
-    .feature { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; text-align: center; }
-    .plots img { max-width: 100%; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 1rem; }
-    .footer { text-align: center; font-size: 0.9rem; color: #666; margin-top: 3rem; }
-    a { color: #0366d6; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    /* RESET & BOX-SIZING */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg,#0f0f23,#16213e);
+      color:#fff;
+      overflow-x:hidden;
+    }
+    .container { max-width:1200px; margin:auto; padding:2rem; position:relative; z-index:10; }
+
+    /* PARTICLES */
+    .particles { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+    .particle {
+      position:absolute; width:4px; height:4px; background:rgba(64,224,255,0.6);
+      border-radius:50%; animation:float 6s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%,100%{transform:translateY(0) rotate(0);opacity:0;}
+      50%{transform:translateY(-100px) rotate(180deg);opacity:1;}
+    }
+
+    /* HERO */
+    .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; }
+    .hero h1 {
+      font-size:4rem; font-weight:800;
+      background:linear-gradient(135deg,#40e0ff,#a855f7,#ef4444);
+      background-clip:text; -webkit-background-clip:text; color:transparent;
+      animation:gradientShift 3s ease-in-out infinite;
+    }
+    @keyframes gradientShift {0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+
+    .hero p { font-size:1.2rem; color:#94a3b8; margin-top:1rem; }
+
+    .badges { display:flex; justify-content:center; gap:1rem; margin-top:2rem; flex-wrap:wrap; }
+    .badge {
+      padding:.5rem 1rem; background:rgba(255,255,255,0.1);
+      border:1px solid rgba(64,224,255,0.3); border-radius:25px;
+      font-size:.9rem; transition:all .3s;
+    }
+    .badge:hover { background:rgba(64,224,255,0.2); transform:translateY(-2px); box-shadow:0 8px 25px rgba(64,224,255,0.3); }
+
+    .cta { margin-top:2rem; }
+    .btn {
+      padding:1rem 2rem; border:none; border-radius:8px; font-size:1.1rem;
+      font-weight:600; cursor:pointer; transition:all .3s; text-decoration:none; display:inline-block;
+    }
+    .btn-primary { background:linear-gradient(135deg,#40e0ff,#a855f7); color:#fff; }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(64,224,255,0.4); }
+    .btn-secondary {
+      background:transparent; color:#40e0ff; border:2px solid #40e0ff;
+    }
+    .btn-secondary:hover { background:#40e0ff; color:#0f0f23; }
+
+    /* SECTION TITLES */
+    .section { padding:5rem 0; }
+    .section h2 {
+      font-size:2.5rem; text-align:center; margin-bottom:3rem;
+      background:linear-gradient(135deg,#fff,#94a3b8);
+      background-clip:text; -webkit-background-clip:text; color:transparent;
+    }
+
+    /* FEATURES GRID */
+    .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; }
+    .feature { background:rgba(255,255,255,0.05); border:1px solid rgba(64,224,255,0.2);
+      border-radius:16px; padding:2rem; text-align:center; position:relative; overflow:hidden;
+      transition:all .3s; }
+    .feature:hover { transform:translateY(-8px); border-color:#40e0ff; box-shadow:0 20px 40px rgba(64,224,255,0.2); }
+    .feature-icon {
+      font-size:2rem; margin-bottom:1rem; display:inline-block;
+      color:#40e0ff;
+    }
+    .feature h3 { margin-bottom:1rem; }
+    .feature p { color:#94a3b8; line-height:1.6; }
+
+    /* CHARTS */
+    .charts { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; }
+    .chart { background:rgba(255,255,255,0.05); border:1px solid rgba(64,224,255,0.2);
+      border-radius:16px; padding:2rem; text-align:center; }
+    .chart img { max-width:100%; border-radius:8px; }
+
+    /* CODE BLOCK */
+    .code { background:rgba(0,0,0,0.5); border:1px solid rgba(64,224,255,0.3);
+      border-radius:12px; padding:2rem; margin:2rem 0; font-family:monospace; color:#40e0ff; overflow-x:auto; }
+
+    /* FOOTER */
+    .footer { text-align:center; padding:3rem 0; border-top:1px solid rgba(64,224,255,0.2); color:#94a3b8; }
+
+    /* SCROLL ANIMATIONS */
+    .fade { opacity:0; transform:translateY(30px); transition:all .6s ease; }
+    .fade.visible { opacity:1; transform:translateY(0); }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>🧠 MeMS‑Pro</h1>
-    <p align="center"><strong>A High-Performance, Thread‑Safe Memory Manager in C++</strong></p>
-    <p align="center" class="badges">
-      <img src="https://img.shields.io/badge/Language-C++17-blue.svg" alt="C++17">
-      <img src="https://img.shields.io/badge/Tested-Google%20Test-green.svg" alt="GoogleTest">
-      <img src="https://img.shields.io/badge/Build-Makefile-yellow.svg" alt="Makefile">
-      <img src="https://img.shields.io/badge/Benchmark-Python%20Plots-red.svg" alt="Plots">
-    </p>
-  </header>
+  <!-- PARTICLES -->
+  <div class="particles" id="particles"></div>
 
-  <section id="overview">
-    <h2>Project Overview</h2>
-    <p>
-      MeMS‑Pro simulates OS‑level memory management with both a slab allocator for small objects
-      and a paged allocator for larger requests. It supports First‑Fit and Best‑Fit strategies,
-      is fully thread‑safe (pthread mutex), includes unit tests (GoogleTest), benchmarks, and
-      visualization scripts (Python).
-    </p>
-  </section>
-
-  <section id="features">
-    <h2>Key Features</h2>
-    <div class="features">
-      <div class="feature">
-        <h3>Slab Allocator</h3>
-        <p>Fixed-size object caching &ndash; ultra-fast small allocations.</p>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container fade">
+      <h1>MeMS‑Pro</h1>
+      <p>High-Performance, Thread-Safe Memory Manager in C++</p>
+      <div class="badges">
+        <span class="badge"> C++17</span>
+        <span class="badge">GoogleTest</span>
+        <span class="badge"> Thread-Safe</span>
+        <span class="badge">📊 Benchmarked</span>
       </div>
-      <div class="feature">
-        <h3>Page Allocator</h3>
-        <p>OS‑style allocation via <code>mmap()</code> with multi‑page blocks.</p>
-      </div>
-      <div class="feature">
-        <h3>Strategies</h3>
-        <p>First‑Fit &amp; Best‑Fit block selection with O(log N) lookup.</p>
-      </div>
-      <div class="feature">
-        <h3>Thread‑Safe</h3>
-        <p>Protected by <code>pthread_mutex</code> for concurrent workloads.</p>
-      </div>
-      <div class="feature">
-        <h3>GoogleTest Suite</h3>
-        <p>7 core tests, covering edge cases and fragmentation logic.</p>
-      </div>
-      <div class="feature">
-        <h3>Benchmark &amp; Plots</h3>
-        <p>Real workloads with CSV output and Python-generated graphs.</p>
+      <div class="cta">
+        <a href="https://github.com/YOUR_USERNAME/MeMS-Pro" class="btn btn-primary" target="_blank">View on GitHub</a>
+        <a href="#overview" class="btn btn-secondary">Learn More</a>
       </div>
     </div>
   </section>
 
-  <section id="benchmark">
-    <h2>Benchmark Results</h2>
-    <p>
-      Run:
-      <code>make bench && python3 docs/plot_results.py</code>
-      to generate <code>benchmark_results.csv</code> and PNGs.
-    </p>
-    <div class="plots">
-      <h3>Average Allocation Time</h3>
-      <img src="benchmark_avg_alloc_time.png" alt="Allocation Time Plot">
-      <h3>Memory Fragmentation</h3>
-      <img src="benchmark_fragmentation.png" alt="Fragmentation Plot">
+  <!-- OVERVIEW -->
+  <section class="section" id="overview">
+    <div class="container fade">
+      <h2>🎯 Project Overview</h2>
+      <p>MeMS‑Pro simulates OS-level memory management with slab &amp; page allocators, offering First‑Fit and Best‑Fit strategies in a thread‑safe C++ library.</p>
     </div>
-    <p>
-      <a href="benchmark_results.csv" target="_blank">Download the raw CSV</a>
-    </p>
   </section>
 
-  <section id="getting-started">
-    <h2>Getting Started</h2>
-    <pre><code>
-git clone https://github.com/YOUR_USERNAME/MeMS-Pro.git
-cd MeMS-Pro
-make all        # build demo & benchmark
-make bench      # build & run benchmark
-make test       # run unit tests
-python3 docs/plot_results.py  # regenerate plots
-    </code></pre>
+  <!-- FEATURES -->
+  <section class="section">
+    <div class="container">
+      <h2>✨ Key Features</h2>
+      <div class="features">
+        <div class="feature fade">
+          <div class="feature-icon">🏎️</div>
+          <h3>High Performance</h3>
+          <p>Optimized allocation strategies with O(log N) lookups and minimal overhead.</p>
+        </div>
+        <div class="feature fade">
+          <div class="feature-icon">🔄</div>
+          <h3>First‑Fit &amp; Best‑Fit</h3>
+          <p>Choose between speed (First‑Fit) and fragmentation reduction (Best‑Fit).</p>
+        </div>
+        <div class="feature fade">
+          <div class="feature-icon">🧵</div>
+          <h3>Thread‑Safe</h3>
+          <p>Protected by pthread mutexes for concurrent, race‑free operations.</p>
+        </div>
+        <div class="feature fade">
+          <div class="feature-icon">🧪</div>
+          <h3>GoogleTest Suite</h3>
+          <p>7 core tests covering edge cases, fragmentation logic, and concurrency.</p>
+        </div>
+        <div class="feature fade">
+          <div class="feature-icon">📊</div>
+          <h3>Benchmarked</h3>
+          <p>Real workloads, CSV logs, and Python scripts for performance analysis.</p>
+        </div>
+        <div class="feature fade">
+          <div class="feature-icon">⚙️</div>
+          <h3>Makefile Build</h3>
+          <p>Single-command build, test, and benchmark runner for reproducibility.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="further-improvements">
-    <h2>Further Improvements</h2>
-    <ul>
-      <li><strong>Worst‑Fit Strategy:</strong> Add and compare a Worst‑Fit allocator.</li>
-      <li><strong>Swapping Simulation:</strong> Simulate page swapping to disk for OOM handling.</li>
-      <li><strong>CI Integration:</strong> Add GitHub Actions for automated build, test, and coverage.</li>
-      <li><strong>Code Coverage:</strong> Integrate <code>gcov</code> or <code>llvm-cov</code> and report badges.</li>
-      <li><strong>Dockerization:</strong> Provide a Dockerfile for reproducible builds.</li>
-      <li><strong>Advanced Metrics:</strong> Track allocation latency distributions, peak memory use.</li>
-    </ul>
-    <p>
-      <em>Be genuine:</em> the core project already demonstrates strong OS and concurrency skills. These enhancements will take it from “very good” to “exceptional,” but aren't strictly necessary for your next SDE role.
-    </p>
+  <!-- PERFORMANCE -->
+  <section class="section">
+    <div class="container">
+      <h2>📈 Performance Analysis</h2>
+      <div class="charts">
+        <div class="chart fade">
+          <h3>Allocation Time (ns)</h3>
+          <img src="benchmark_avg_alloc_time.png" alt="Allocation Time Plot">
+          <p>Benchmarked over 50k operations per workload.</p>
+        </div>
+        <div class="chart fade">
+          <h3>Fragmentation (%)</h3>
+          <img src="benchmark_fragmentation.png" alt="Fragmentation Plot">
+          <p>Best‑Fit reduces fragmentation significantly versus First‑Fit.</p>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:1rem;">
+        <a href="benchmark_results.csv" class="btn btn-secondary">Download CSV Data</a>
+      </p>
+    </div>
   </section>
 
+  <!-- IMPLEMENTATION DETAILS -->
+  <section class="section">
+    <div class="container fade">
+      <h2>🔧 Implementation & API Usage</h2>
+
+      <div class="code">
+<pre><code>// Initialize manager with 1MB pool, Best-Fit strategy
+MemoryManager mem(1024*1024, Strategy::BEST_FIT);
+
+// Allocate an int array of 1000 elements
+int* arr = static_cast<int*>(mem.alloc(1000 * sizeof(int)));
+if (!arr) { /* handle OOM */ }
+
+// Use the memory
+for(int i=0;i<1000;++i) arr[i] = i*i;
+
+// Free when done
+mem.free(arr);
+</code></pre>
+      </div>
+
+      <h2>⚙️ Configuration Options</h2>
+      <div class="features">
+        <div class="feature fade">
+          <h3>SLAB_THRESHOLD</h3>
+          <p>Max bytes for slab allocation (default <strong>512</strong>).</p>
+        </div>
+        <div class="feature fade">
+          <h3>PAGE_SIZE</h3>
+          <p>System page size (typically <strong>4096</strong> bytes).</p>
+        </div>
+        <div class="feature fade">
+          <h3>STRATEGY</h3>
+          <p>Select <code>FIRST_FIT</code> or <code>BEST_FIT</code> at construction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FURTHER IMPROVEMENTS -->
+  <section class="section">
+    <div class="container fade">
+      <h2> Further Improvements</h2>
+      <ul style="list-style:disc; margin-left:1.5rem;">
+        <li>Add <strong>Worst‑Fit</strong> strategy and compare metrics.</li>
+        <li>Simulate <strong>swapping to disk</strong> under OOM conditions.</li>
+        <li>Integrate <strong>GitHub Actions</strong> for CI/CD and coverage.</li>
+        <li>Dockerize with a <strong>Dockerfile</strong> for reproducible builds.</li>
+        <li>Extend metrics: latency percentiles, memory leak detection.</li>
+      </ul>
+      <p style="opacity:.8;">Your current release already demonstrates strong OS, concurrency, and engineering rigor suitable for SDE‑1 roles.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer class="footer">
-    <p>© 2025 Aditya Yadav — <a href="https://github.com/aditya22041/MemoryManagementSystem">GitHub Repo</a></p>
+    <div class="container">
+      <p>© 2025 Aditya Yadav — <a href="https://github.com/YOUR_USERNAME/MeMS-Pro" target="_blank">GitHub Repo</a></p>
+    </div>
   </footer>
 
+  <script>
+    // PARTICLES
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for(let i=0;i<60;i++){
+        let p = document.createElement('div');
+        p.className='particle';
+        p.style.left = Math.random()*100+'%';
+        p.style.top = Math.random()*100+'%';
+        p.style.animationDelay = Math.random()*6+'s';
+        p.style.animationDuration = 4+Math.random()*4+'s';
+        container.appendChild(p);
+      }
+    }
+    // SCROLL ANIMATIONS
+    function setupFade() {
+      const obs=new IntersectionObserver((ents)=>{
+        ents.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+      },{threshold:0.1});
+      document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+    }
+    document.addEventListener('DOMContentLoaded',()=>{
+      createParticles();
+      setupFade();
+    });
+  </script>
 </body>
 </html>
