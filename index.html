@@ -2,178 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MeMS‑Pro: Advanced Memory Manager</title>
+  <title>MeMS-Pro: Advanced Memory Manager</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body {
-      margin: 0; padding: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #eee;
-      line-height: 1.6;
-    }
-    a { color: #4fc3f7; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .container { max-width: 900px; margin: auto; padding: 2rem; }
-    header { text-align: center; padding: 4rem 0; background: #222; }
-    header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-    header p  { font-size: 1.2rem; color: #bbb; }
-    header img { max-width: 100%; height: auto; border-radius: 8px; margin-top: 2rem; }
-
-    section { margin: 4rem 0; }
-    h2 { font-size: 2rem; border-bottom: 2px solid #4fc3f7; padding-bottom: 0.5rem; }
-
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1.5rem; }
-    .feature { background: #222; padding: 1.5rem; border-radius: 6px; }
-    .feature img { width: 40px; height: 40px; margin-bottom: 0.5rem; }
-    .feature h3 { margin: 0.5rem 0; color: #4fc3f7; }
-    .feature p { font-size: 0.9rem; color: #ccc; }
-
-    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .chart { background: #222; padding: 1rem; border-radius: 6px; text-align: center; }
-    .chart img { max-width: 100%; height: auto; }
-
-    .code { background: #000; padding: 1rem; border-radius: 6px; overflow-x: auto; color: #4fc3f7; font-family: monospace; font-size: 0.9rem; }
-
-    footer { text-align: center; padding: 2rem 0; font-size: 0.8rem; color: #777; }
+    body { margin:0; padding:0; font-family:Arial,sans-serif; background:#111; color:#eee; }
+    a { color:#4fc3f7; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:900px; margin:auto; padding:2rem; }
+    header { text-align:center; padding:4rem 0; background:#222; }
+    header h1 { font-size:3rem; margin-bottom:0.5rem; }
+    header p  { font-size:1.2rem; color:#bbb; }
+    header img { max-width:100%; border-radius:8px; margin-top:2rem; }
+    section { margin:4rem 0; }
+    h2 { font-size:2rem; border-bottom:2px solid #4fc3f7; padding-bottom:0.5rem; }
+    .charts { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+    .chart { background:#222; padding:1rem; border-radius:6px; text-align:center; }
+    .chart img { max-width:100%; border-radius:4px; }
+    .code { background:#000; padding:1rem; border-radius:6px; overflow-x:auto; color:#4fc3f7; font-family:monospace; }
+    footer { text-align:center; padding:2rem 0; font-size:0.8rem; color:#777; }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>MeMS‑Pro: Advanced Memory Manager</h1>
-      <p>High‑performance, thread‑safe slab &amp; page allocator in C++17</p>
-      <img src="https://source.unsplash.com/900x300/?computer-memory,hardware" alt="Memory Hardware">
+
+<header>
+  <div class="container">
+    <h1>MeMS‑Pro: Advanced Memory Manager</h1>
+    <p>High‑performance, thread‑safe slab &amp; page allocator in C++17</p>
+    <img src="docs/allocation_photo.jpg" alt="Memory modules in a server">
+  </div>
+</header>
+
+<section class="container">
+  <h2>Overview</h2>
+  <p>
+    MeMS‑Pro is a C++ library that simulates OS‑style memory management:
+    <ul>
+      <li>Slab Allocator for objects ≤512 B<br><small>(mmap-based)</small></li>
+      <li>Paged Allocator for larger blocks via <a href="https://man7.org/linux/man-pages/man2/mmap.2.html" target="_blank">mmap(2)</a></li>
+      <li>Select First‑Fit or Best‑Fit strategies</li>
+      <li>Thread-safety with <a href="https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3p.html" target="_blank">pthread_mutex_lock(3p)</a></li>
+      <li>Benchmarked workloads &amp; Python visualization</li>
+      <li>Unit tests via <a href="https://github.com/google/googletest" target="_blank">GoogleTest</a></li>
+    </ul>
+  </p>
+</section>
+
+<section class="container">
+  <h2>Performance Analysis</h2>
+  <div class="charts">
+    <div class="chart">
+      <h3>Average Allocation Time (ns)</h3>
+      <img src="docs/benchmark_avg_alloc_time.png" alt="Average allocation time plot">
+      <p>Variable Size Stress: Best‑Fit ~241,511 ns, First‑Fit ~65,017 ns<br>
+         Small Object Stress: Best‑Fit ~124,982 ns, First‑Fit ~55,187 ns</p>
     </div>
-  </header>
-
-  <section class="container" id="overview">
-    <h2>Project Overview</h2>
-    <p>
-      MeMS‑Pro is a C++ library that mimics OS‑level memory management:
-      <ul>
-        <li>A <strong>Slab Allocator</strong> for small, fixed-size objects (≤512B).</li>
-        <li>A <strong>Paged Allocator</strong> via <code>mmap()</code> for larger blocks.</li>
-        <li>Selectable <strong>First‑Fit</strong> or <strong>Best‑Fit</strong> strategies.</li>
-        <li>Fully thread‑safe using <a href="https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3p.html">pthread_mutex_lock(3p)</a>.</li>
-        <li>Benchmarked workloads with CSV output and Python plots.</li>
-        <li>Unit‑tested via <a href="https://github.com/google/googletest">GoogleTest</a>.</li>
-      </ul>
-    </p>
-  </section>
-
-  <section class="container">
-    <h2>Key Features</h2>
-    <div class="features">
-      <div class="feature">
-        <img src="https://source.unsplash.com/40x40/?speed,performance" alt="Performance">
-        <h3>High Performance</h3>
-        <p>Optimized algorithms deliver ~120 µs per small‑object alloc, 2× faster than std::malloc.</p>
-      </div>
-      <div class="feature">
-        <img src="https://source.unsplash.com/40x40/?fragment,pattern" alt="Fragmentation">
-        <h3>Low Fragmentation</h3>
-        <p>Best‑Fit strategy yields ~8.3% fragmentation vs. ~15.7% for First‑Fit in stress tests.</p>
-      </div>
-      <div class="feature">
-        <img src="https://source.unsplash.com/40x40/?test,code" alt="Testing">
-        <h3>Comprehensive Tests</h3>
-        <p>7 GoogleTest cases cover zero/oversize alloc, double‑free, fragmentation, and slab integration.</p>
-      </div>
-      <div class="feature">
-        <img src="https://source.unsplash.com/40x40/?benchmark,chart" alt="Benchmark">
-        <h3>Detailed Benchmarks</h3>
-        <p>Benchmarked 50k+ ops per workload; output to <code>benchmark_results.csv</code>.</p>
-      </div>
+    <div class="chart">
+      <h3>Final Fragmentation (%)</h3>
+      <img src="docs/fragmentation_photo.jpg" alt="Server RAM illustrating fragmentation">
+      <img src="docs/benchmark_fragmentation.png" alt="Fragmentation plot" style="margin-top:1rem;">
+      <p>Best‑Fit: ~8.3% &nbsp;|&nbsp; First‑Fit: ~15.7%</p>
     </div>
-  </section>
+  </div>
+  <p style="text-align:center; margin-top:1rem;">
+    <a href="benchmark_results.csv" target="_blank">Download CSV Data</a> |
+    <a href="https://github.com/aditya22041/MemoryManagementSystem/tree/main" target="_blank">View on GitHub</a>
+  </p>
+</section>
 
-  <section class="container">
-    <h2>Performance Charts</h2>
-    <div class="charts">
-      <div class="chart">
-        <h3>Avg. Allocation Time</h3>
-        <img src="docs/benchmark_avg_alloc_time.png" alt="Allocation Time Plot">
-        <p>Small Object Stress: Best‑Fit ~125 µs, First‑Fit ~55 µs.</p>
-      </div>
-      <div class="chart">
-        <h3>Final Fragmentation</h3>
-        <img src="docs/benchmark_fragmentation.png" alt="Fragmentation Plot">
-        <p>Best‑Fit ~8.3%, First‑Fit ~15.7% (lower is better).</p>
-      </div>
-    </div>
-    <p style="text-align:center; margin-top:1rem;">
-      <a href="benchmark_results.csv">Download raw CSV</a>
-    </p>
-  </section>
-
-  <section class="container">
-    <h2>API Usage Example</h2>
-    <div class="code">
+<section class="container">
+  <h2>API Example</h2>
+  <div class="code">
 <pre><code>#include "memory_manager.h"
 
 int main() {
-    // 1 MB pool, best‑fit
     MemoryManager mem(1024*1024, Strategy::BEST_FIT);
-
-    // Allocate an int array of 1000 elements
     int* arr = static_cast<int*>(mem.alloc(1000 * sizeof(int)));
     if (!arr) return -1;
-
     for(int i=0;i<1000;++i) arr[i] = i*i;
     mem.free(arr);
     return 0;
 }
 </code></pre>
-    </div>
-    <p>See <a href="https://en.cppreference.com/w/cpp/memory/new/operator_delete">std::alloc docs</a> and <a href="https://man7.org/linux/man-pages/man2/mmap.2.html">mmap(2) man page</a> for reference.</p>
-  </section>
+  </div>
+</section>
 
-  <section class="container">
-    <h2>Further Improvements</h2>
-    <ul>
-      <li>Add a <strong>Worst‑Fit</strong> strategy and compare performance.</li>
-      <li>Simulate <strong>paging/swapping</strong> under memory pressure.</li>
-      <li>Integrate <strong>GitHub Actions</strong> for CI and coverage reports.</li>
-      <li>Provide a <strong>Dockerfile</strong> for reproducible builds.</li>
-      <li>Extend metrics: latency percentiles, peak usage, leak detection.</li>
-    </ul>
-    <p style="opacity:0.8;">These are optional extras—your existing code, tests, benchmarks, and plots already present a complete, production‑grade allocator library ready for SDE‑1 roles.</p>
-  </section>
+<footer>
+  <div class="container">
+    <p>© 2025 Aditya Yadav | <a href="https://github.com/aditya22041/MemoryManagementSystem/tree/main" target="_blank">GitHub Repo</a></p>
+  </div>
+</footer>
 
-  <footer class="footer">
-    <div class="container">
-      <p>© 2025 Aditya Yadav • <a href="https://github.com/YOUR_USERNAME/MeMS-Pro">GitHub Repo</a></p>
-    </div>
-  </footer>
-
-  <script>
-    // Particle background
-    function spawnParticles() {
-      const container = document.getElementById('particles');
-      for (let i=0;i<60;i++){
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.style.left = Math.random()*100+'%';
-        p.style.top = Math.random()*100+'%';
-        p.style.animationDelay = (Math.random()*6)+'s';
-        p.style.animationDuration = (4+Math.random()*4)+'s';
-        container.appendChild(p);
-      }
-    }
-    // Fade-in on scroll
-    function initFade() {
-      const obs = new IntersectionObserver(entries=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting) e.target.classList.add('visible');
-        });
-      }, {threshold:0.1});
-      document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
-    }
-    document.addEventListener('DOMContentLoaded', ()=>{
-      spawnParticles();
-      initFade();
-    });
-  </script>
 </body>
 </html>
