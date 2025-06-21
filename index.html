@@ -292,7 +292,7 @@
     }
 
     .chart { 
-      background: linear-gradient(135deg, rgba(79, 195, 247, 0.1), rgba(26, 26, 46, 0.8));
+      background: #1f1f2e;
       padding: 2rem; 
       border-radius: 15px;
       border: 1px solid rgba(79, 195, 247, 0.2);
@@ -665,80 +665,59 @@
   <!-- PERFORMANCE -->
   <section class="container" id="performance">
     <h2>Performance Analysis</h2>
+
     <div class="charts">
+      <!-- Allocation Time Chart -->
       <div class="chart">
-        <h3>Avg. Allocation Time</h3>
-        <img src="docs/benchmark_avg_alloc_time.png" alt="Allocation Time Plot">
-        <p>Small Object Stress: Best‑Fit ~125 µs, First‑Fit ~55 µs.</p>
+        <h3>Average Allocation Time (ns)</h3>
+        <img 
+          src="docs/benchmark_avg_alloc_time.png" 
+          alt="Average allocation time bar chart" 
+          onerror="this.onerror=null;this.src='docs/allocation_photo.jpg';"
+        >
+        <p>
+          <strong>Variable Size Stress:</strong>
+          Best‑Fit ≈ 241 511 ns &nbsp;|&nbsp; First‑Fit ≈ 65 017 ns<br>
+          <strong>Small Object Stress:</strong>
+          Best‑Fit ≈ 124 982 ns &nbsp;|&nbsp; First‑Fit ≈ 55 187 ns
+        </p>
       </div>
-        <p style="margin-top: 1rem;">Variable Size Stress: Best‑Fit ~241,511 ns, First‑Fit ~65,017 ns.<br>
-           Small Object Stress: Best‑Fit ~124,982 ns, First‑Fit ~55,187 ns.</p>
-      </div>
+
+      <!-- Fragmentation Chart -->
       <div class="chart">
-        <h3>Memory Fragmentation Analysis</h3>
-        <div class="fragmentation-chart">
-          <div class="chart-title">Fragmentation Analysis</div>
-          <div class="chart-subtitle">Memory Fragmentation after Workload Completion</div>
-          
-          <div class="chart-container">
-            <div style="position: absolute; left: -40px; top: 0; height: 100%; display: flex; flex-direction: column-reverse; justify-content: space-between; color: #888; font-size: 11px;">
-              <span>0%</span>
-              <span>5%</span>
-              <span>10%</span>
-              <span>15%</span>
-              <span>20%</span>
-            </div>
-            
-            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;">
-              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 0%;"></div>
-              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 25%;"></div>
-              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 50%;"></div>
-              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 75%;"></div>
-              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 100%;"></div>
-            </div>
-            
-            <div class="bar-group">
-              <div class="bar-container">
-                <div class="bar bar-best-fit">
-                  <div class="bar-value">8.3%</div>
-                </div>
-                <div class="bar bar-first-fit">
-                  <div class="bar-value">15.7%</div>
-                </div>
-              </div>
-              <div class="workload-label">Variable Size Stress</div>
-            </div>
-            
-            <div class="bar-group">
-              <div class="bar-container">
-                <div class="bar bar-best-fit" style="height: 25px;">
-                  <div class="bar-value">2.5%</div>
-                </div>
-                <div class="bar bar-first-fit" style="height: 43px;">
-                  <div class="bar-value">4.3%</div>
-                </div>
-              </div>
-              <div class="workload-label">Small Object Stress</div>
-            </div>
-          </div>
-          
-          <div class="legend">
-            <div class="legend-item">
-              <div class="legend-color legend-best-fit"></div>
-              <span>BEST_FIT</span>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color legend-first-fit"></div>
-              <span>FIRST_FIT</span>
-            </div>
-          </div>
-        </div>
-        <p style="margin-top: 1rem;">Best‑Fit consistently delivers superior fragmentation reduction across all workload types.</p>
+        <h3>Final Fragmentation (%)</h3>
+        <!-- fallback photo above always visible -->
+        <img 
+          src="docs/fragmentation_photo.jpg" 
+          alt="Server hardware illustrating fragmentation"
+        >
+        <img 
+          src="docs/benchmark_fragmentation.png" 
+          alt="Memory fragmentation bar chart" 
+          style="margin-top:1rem;"
+        >
+        <p>
+          Best‑Fit: ≈ 8.3% &nbsp;|&nbsp; First‑Fit: ≈ 15.7%
+        </p>
       </div>
     </div>
+
     <div style="text-align:center; margin-top:2rem;">
-      <a href="benchmark_results.csv" target="_blank" style="padding: 0.8rem 1.5rem; background: linear-gradient(45deg, #4fc3f7, #29b6f6); border-radius: 25px; margin: 0 1rem; display: inline-block; transition: all 0.3s ease;">Download CSV Data</a>
-      <a href="https://github.com/aditya22041/MemoryManagementSystem/tree/main" target="_blank" style="padding: 0.8rem 1.5rem; background: linear-gradient(45deg, #29b6f6, #0277bd); border-radius: 25px; margin: 0 1rem; display: inline-block; transition: all 0.3s ease;">Explore Source Code</a>
+      <a 
+        href="benchmark_results.csv" 
+        class="cta-button" 
+        style="background:#4fc3f7; color:#000;"
+      >
+        Download CSV Data
+      </a>
+      <a 
+        href="https://github.com/aditya22041/MemoryManagementSystem/tree/main" 
+        class="cta-button" 
+        style="background:#29b6f6; color:#000;"
+        target="_blank"
+      >
+        Explore Source Code
+      </a>
     </div>
   </section>
 
