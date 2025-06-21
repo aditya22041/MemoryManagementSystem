@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MeMS‑Pro: Memory Management System</title>
+  <title>MeMS‑Pro: Advanced Memory Manager</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     * {
@@ -292,7 +292,7 @@
     }
 
     .chart { 
-      background: #1f1f2e;
+      background: linear-gradient(135deg, rgba(79, 195, 247, 0.1), rgba(26, 26, 46, 0.8));
       padding: 2rem; 
       border-radius: 15px;
       border: 1px solid rgba(79, 195, 247, 0.2);
@@ -612,7 +612,7 @@
   <section class="container" id="overview">
     <h2>Project Overview</h2>
     <p>
-      MeMS‑Pro is a C++ library that implements OS‑level memory management patterns with enterprise-grade performance and reliability. The system combines modern C++17 features with low-level system programming to deliver exceptional memory allocation performance.
+      MeMS‑Pro is a sophisticated C++ library that implements OS‑level memory management patterns with enterprise-grade performance and reliability. The system combines modern C++17 features with low-level system programming to deliver exceptional memory allocation performance.
     </p>
     <ul style="margin: 2rem 0; padding-left: 2rem; color: #e3f2fd;">
       <li style="margin: 0.8rem 0;"><strong>Slab Allocator</strong> for small, fixed-size objects (≤512 B) with O(1) allocation time</li>
@@ -642,7 +642,7 @@
       <div class="feature">
         <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=80&h=80&fit=crop&crop=center" alt="Performance" class="feature-icon">
         <h3>High Performance</h3>
-        <p>Achieves small-object allocations in ~125 μs on average similar to <a href="https://man7.org/linux/man-pages/man3/malloc.3.html" target="_blank">malloc(3)</a> implementations under same stress testing conditions.</p>
+        <p>Achieves small-object allocations in ~125 μs on average—delivering similar performance to standard <a href="https://man7.org/linux/man-pages/man3/malloc.3.html" target="_blank">malloc(3)</a> implementations under intensive stress testing conditions.</p>
       </div>
       <div class="feature">
         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=80&h=80&fit=crop&crop=center" alt="Fragmentation" class="feature-icon">
@@ -656,7 +656,7 @@
       </div>
       <div class="feature">
         <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=80&h=80&fit=crop&crop=center" alt="Benchmark" class="feature-icon">
-        <h3>Analytics</h3>
+        <h3>Advanced Analytics</h3>
         <p>Sophisticated benchmarking system processing 50,000+ operations per workload with detailed CSV output and <a href="https://matplotlib.org/" target="_blank">matplotlib</a> integration for comprehensive performance analysis.</p>
       </div>
     </div>
@@ -665,8 +665,8 @@
   <!-- PERFORMANCE -->
   <section class="container" id="performance">
     <h2>Performance Analysis</h2>
-
     <div class="charts">
+     <div class="charts">
       <!-- Allocation Time Chart -->
       <div class="chart">
         <h3>Average Allocation Time (ns)</h3>
@@ -682,42 +682,71 @@
           Best‑Fit ≈ 124 982 ns &nbsp;|&nbsp; First‑Fit ≈ 55 187 ns
         </p>
       </div>
-
-      <!-- Fragmentation Chart -->
       <div class="chart">
-        <h3>Final Fragmentation (%)</h3>
-        <!-- fallback photo above always visible -->
-        <img 
-          src="docs/fragmentation_photo.jpg" 
-          alt="Server hardware illustrating fragmentation"
-        >
-        <img 
-          src="docs/benchmark_fragmentation.png" 
-          alt="Memory fragmentation bar chart" 
-          style="margin-top:1rem;"
-        >
-        <p>
-          Best‑Fit: ≈ 8.3% &nbsp;|&nbsp; First‑Fit: ≈ 15.7%
-        </p>
+        <h3>Memory Fragmentation Analysis</h3>
+        <div class="fragmentation-chart">
+          <div class="chart-title">Fragmentation Analysis</div>
+          <div class="chart-subtitle">Memory Fragmentation after Workload Completion</div>
+          
+          <div class="chart-container">
+            <div style="position: absolute; left: -40px; top: 0; height: 100%; display: flex; flex-direction: column-reverse; justify-content: space-between; color: #888; font-size: 11px;">
+              <span>0%</span>
+              <span>5%</span>
+              <span>10%</span>
+              <span>15%</span>
+              <span>20%</span>
+            </div>
+            
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;">
+              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 0%;"></div>
+              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 25%;"></div>
+              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 50%;"></div>
+              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 75%;"></div>
+              <div style="position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); bottom: 100%;"></div>
+            </div>
+            
+            <div class="bar-group">
+              <div class="bar-container">
+                <div class="bar bar-best-fit">
+                  <div class="bar-value">8.3%</div>
+                </div>
+                <div class="bar bar-first-fit">
+                  <div class="bar-value">15.7%</div>
+                </div>
+              </div>
+              <div class="workload-label">Variable Size Stress</div>
+            </div>
+            
+            <div class="bar-group">
+              <div class="bar-container">
+                <div class="bar bar-best-fit" style="height: 25px;">
+                  <div class="bar-value">2.5%</div>
+                </div>
+                <div class="bar bar-first-fit" style="height: 43px;">
+                  <div class="bar-value">4.3%</div>
+                </div>
+              </div>
+              <div class="workload-label">Small Object Stress</div>
+            </div>
+          </div>
+          
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-color legend-best-fit"></div>
+              <span>BEST_FIT</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color legend-first-fit"></div>
+              <span>FIRST_FIT</span>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 1rem;">Best‑Fit consistently delivers superior fragmentation reduction across all workload types.</p>
       </div>
     </div>
-
     <div style="text-align:center; margin-top:2rem;">
-      <a 
-        href="benchmark_results.csv" 
-        class="cta-button" 
-        style="background:#4fc3f7; color:#000;"
-      >
-        Download CSV Data
-      </a>
-      <a 
-        href="https://github.com/aditya22041/MemoryManagementSystem/tree/main" 
-        class="cta-button" 
-        style="background:#29b6f6; color:#000;"
-        target="_blank"
-      >
-        Explore Source Code
-      </a>
+      <a href="benchmark_results.csv" target="_blank" style="padding: 0.8rem 1.5rem; background: linear-gradient(45deg, #4fc3f7, #29b6f6); border-radius: 25px; margin: 0 1rem; display: inline-block; transition: all 0.3s ease;">Download CSV Data</a>
+      <a href="https://github.com/aditya22041/MemoryManagementSystem/tree/main" target="_blank" style="padding: 0.8rem 1.5rem; background: linear-gradient(45deg, #29b6f6, #0277bd); border-radius: 25px; margin: 0 1rem; display: inline-block; transition: all 0.3s ease;">Explore Source Code</a>
     </div>
   </section>
 
@@ -765,7 +794,7 @@ int main() {
 
   <!-- FURTHER IMPROVEMENTS -->
   <section class="container" id="improvements">
-    <h2>Scope of Improvement</h2>
+    <h2>Scope of Development</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
       <div class="feature">
         <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=80&h=80&fit=crop&crop=center" alt="Strategy" class="feature-icon">
@@ -783,7 +812,7 @@ int main() {
         <p>Implement GitHub Actions for automated build, test, and coverage reporting with <a href="https://gcc.gnu.org/onlinedocs/gcc/Gcov.html" target="_blank">gcov</a> integration.</p>
       </div>
       <div class="feature">
-        <img src="data:image/jpeg;base64,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" alt="Docker" class="feature-icon">
+        <img src="https://images.unsplash.com/photo-1605745341112-85968b19335a?w=80&h=80&fit=crop&crop=center" alt="Docker" class="feature-icon">
         <h3>Containerization</h3>
         <p>Provide comprehensive Dockerfile and container orchestration for consistent development and deployment environments.</p>
       </div>
@@ -811,8 +840,7 @@ int main() {
     </div>
     
     <p style="opacity:0.8; margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(79, 195, 247, 0.1), rgba(26, 26, 46, 0.8)); border-radius: 10px; border-left: 4px solid #4fc3f7;">
-      These enhancements represent the next phase of development—the current implementation already demonstrates ready to use  memory management.
-    </p>
+      These enhancements represent the next phase of development—the current implementation already demonstrates ready to use memory management with standard performane.
   </section>
 
   <!-- FOOTER -->
